@@ -1,4 +1,6 @@
-﻿namespace xadrez_console.tabuleiro
+﻿using tabuleiro;
+
+namespace xadrez_console.tabuleiro
 {
     internal class Tabuleiro
     {
@@ -16,6 +18,12 @@
         public Peca peca(int linaha,  int colunas)
         {
             return pecas[linaha, colunas];
+        }
+
+        public void colacarPeca(Peca p, Posicao pos)
+        {
+            pecas[pos.linha, pos.coluna] = p;
+            p.pocisao = pos;
         }
     }
 }
