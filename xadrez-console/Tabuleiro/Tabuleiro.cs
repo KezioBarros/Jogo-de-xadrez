@@ -35,7 +35,7 @@ namespace xadrez_console.tabuleiro
         {
             if (existePeca(pos))
             {
-                throw new TabuleiroException("Ja existe uma peca nessa posicao")
+                throw new TabuleiroException("Ja existe uma peca nessa posicao");
             }
             pecas[pos.linha, pos.coluna] = p;
             p.pocisao = pos;
