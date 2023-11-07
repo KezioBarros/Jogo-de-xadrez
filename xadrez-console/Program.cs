@@ -6,6 +6,7 @@ using xadrez_console.tabuleiro;
 using xadrez;
 using xadrez_console;
 
+
 namespace MyApp 
 {
     internal class Program
@@ -14,14 +15,21 @@ namespace MyApp
         {
             try
             {
-                Tabuleiro tab = new Tabuleiro(8, 8);
+                PartidaDeXadres partida = new PartidaDeXadres();
 
-                tab.colacarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
-                tab.colacarPeca(new Torre(tab, Cor.Preta), new Posicao(1, 3));
-                tab.colacarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 2));
+                while (!partida.terminada)
+                {
+                    Console.Clear();
+                    Tela.imprimirTabuleiro(partida.tab);
 
-                tab.colacarPeca(new Rei(tab, Cor.Branca), new Posicao(3, 5));
-                Tela.imprimirTabuleiro(tab);
+                    Console.Write("Digite a posicao de origem: ");
+                    Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
+                    Console.Write("Destino: ");
+                    Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
+
+                    partida.executarMovimento(origem, destino);
+                }             
+                
             }
             catch (TabuleiroException ex) 
             {

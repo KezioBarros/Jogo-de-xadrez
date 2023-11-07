@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using tabuleiro;
 using xadrez_console.tabuleiro;
+using xadrez;
 
 namespace xadrez_console
 {
@@ -31,6 +32,13 @@ namespace xadrez_console
 
         }
 
+        public static PosicaoXadrez lerPosicaoXadrez()
+        {
+            string s = Console.ReadLine();
+            char linha = s[0];
+            int coluna = int.Parse(s[1] + "");
+            return new PosicaoXadrez(linha, coluna);
+        }
         public static void imprimirPeca(Peca peca)
         {
             if(peca.cor == Cor.Branca)
