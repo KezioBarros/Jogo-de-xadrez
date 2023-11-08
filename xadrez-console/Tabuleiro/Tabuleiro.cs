@@ -38,7 +38,7 @@ namespace xadrez_console.tabuleiro
                 throw new TabuleiroException("Ja existe uma peca nessa posicao");
             }
             pecas[pos.linha, pos.coluna] = p;
-            p.pocicao = pos;
+            p.posicao = pos;
         }
 
         public Peca retirarPeca(Posicao pos)
@@ -48,14 +48,14 @@ namespace xadrez_console.tabuleiro
                 return null;
             }
             Peca aux = peca(pos);
-            aux.pocicao = null;
+            aux.posicao = null;
             pecas[pos.linha, pos.coluna] = null;
             return aux;
         }
 
         public bool posicaoValida(Posicao pos)
         {
-            if (pos.linha < 0 || pos.linha >= linhas || pos.coluna > colunas)
+            if (pos.linha < 0 || pos.linha >= linhas || pos.coluna < 0 || pos.coluna >= colunas)
             {
                 return false;
             }
