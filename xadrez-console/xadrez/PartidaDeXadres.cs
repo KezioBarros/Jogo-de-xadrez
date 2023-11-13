@@ -15,6 +15,7 @@ namespace xadrez
         private HashSet<Peca> pecas;
         private HashSet<Peca> capituradas;
         public bool xeque { get; private set; }
+        public Peca vulneravelEmPassant { get; private set; }
         public PartidaDeXadres()
         {
             tab = new Tabuleiro(8, 8);
@@ -22,6 +23,7 @@ namespace xadrez
             jogadorAtual = Cor.Branca;
             terminada = false;
             xeque = false;
+            vulneravelEmPassant = null;
             pecas = new HashSet<Peca>();
             capituradas = new HashSet<Peca>();
             colocarPecas();
@@ -59,6 +61,25 @@ namespace xadrez
                 tab.colacarPeca(T, destinoT);
             }
 
+            // #Jogadaespecial en passant
+            if(p is Peao)
+            {
+                if(origem.coluna != destino.coluna && pecaCapturada == null)
+                {
+                    Posicao posP;
+                    if(p.cor == Cor.Branca)
+                    {
+                        posP = new Posicao(destino.linha + 1, destino.coluna);
+                    }
+                    else
+                    {
+                        posP = new Posicao(destino.linha - 1, destino.coluna);
+                    }
+                    pecaCapturada = tab.retirarPeca(posP);
+                    capituradas.Add(pecaCapturada);
+                }
+            }
+
             return pecaCapturada;
         }
 
@@ -93,6 +114,25 @@ namespace xadrez
                 tab.colacarPeca(T, origemT);
             }
 
+            // #Jogadaespecial en passent
+            if(p is Peao)
+            {
+                if(origem.coluna != destino.coluna && pecaCapiturada == vulneravelEmPassant)
+                {
+                    Peca peao = tab.retirarPeca(destino);
+                    Posicao posP;
+                    if(p.cor == Cor.Branca)
+                    {
+                        posP = new Posicao(3, destino.coluna);
+                    }
+                    else
+                    {
+                        posP = new Posicao(4, destino.coluna);
+                    }
+                    tab.colacarPeca(peao, posP);
+                }
+            }
+
         }
 
         public void realizarJogada(Posicao origem, Posicao destino)
@@ -122,6 +162,17 @@ namespace xadrez
             {
                 turno++;
                 mudaJogador();
+            }
+
+            // #Jogadaespecial en passent
+            Peca p = tab.peca(destino);
+            if(p is Peao && (destino.linha == origem.linha - 2 || destino.linha == origem.linha + 2))
+            {
+                vulneravelEmPassant = p;
+            }
+            else
+            {
+                vulneravelEmPassant = null;
             }
         }
 
